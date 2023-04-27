@@ -8,10 +8,10 @@ import ru.morcherlf.pharmacy.entity.param.LoginParam;
 import ru.morcherlf.pharmacy.repository.UserRepository;
 
 @RestController
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class AuthController {
 
-    final UserRepository userRepository;
+//    final UserRepository userRepository;
 
     //  Login
     @PostMapping("/login")

@@ -1,5 +1,6 @@
 package ru.morcherlf.pharmacy.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -39,6 +40,7 @@ public class Orders {
 
     @ManyToOne(cascade={CascadeType.MERGE,CascadeType.REFRESH})
     @JoinColumn(name="MemberID")
+    @JsonBackReference(value = "order-member")
     private Member member;
 
     @ManyToOne(cascade={CascadeType.MERGE,CascadeType.REFRESH})
