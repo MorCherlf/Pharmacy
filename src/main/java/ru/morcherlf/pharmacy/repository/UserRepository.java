@@ -5,4 +5,6 @@ import ru.morcherlf.pharmacy.entity.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
     boolean existsByUsername (String username);
+
+    User findByUsername (String username);
 }

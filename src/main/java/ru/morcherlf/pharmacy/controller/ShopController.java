@@ -33,4 +33,14 @@ public class ShopController {
     @PostMapping("/shop/edit")
     Shop edit(@RequestBody Shop shop){return shopRepository.save(shop);}
 
+    @GetMapping("/shop/delete/{id}")
+    String deleteShop(@PathVariable("id") long id) {
+        try {
+            shopRepository.deleteById(id);
+            return "success";
+        }catch (Exception e) {
+            return "failed:" + e;
+        }
+    }
+
 }

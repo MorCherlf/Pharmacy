@@ -1,6 +1,7 @@
 package ru.morcherlf.pharmacy.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.ToString;
@@ -16,6 +17,7 @@ public class User {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
 
+    @JsonIgnore
     @Column(name = "Password", length = 100, nullable = false)
     private String password;
 

@@ -14,9 +14,9 @@ public class AuthController {
 //    final UserRepository userRepository;
 
     //  Login
-    @PostMapping("/login")
-    String Login(@RequestBody LoginParam loginParam) {
-
-        return null;
-    }
+//    @PostMapping("/login")
+//    String Login(@RequestBody LoginParam loginParam) {
+//
+//        return null;
+//    }
 }

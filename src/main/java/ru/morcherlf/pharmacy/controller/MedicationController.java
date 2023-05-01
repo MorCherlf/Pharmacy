@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.morcherlf.pharmacy.entity.*;
 import ru.morcherlf.pharmacy.entity.param.AddMedicationDetailParam;
 import ru.morcherlf.pharmacy.entity.param.AddMedicationParam;
+import ru.morcherlf.pharmacy.entity.param.EditMedicationDetailParam;
 import ru.morcherlf.pharmacy.entity.param.EditMedicationParam;
 import ru.morcherlf.pharmacy.repository.*;
 
@@ -65,10 +66,18 @@ public class MedicationController {
 
 
 //  Get All Medications By Page
-    @GetMapping(value = "/medications",params = {"page","value"})
-    Page<Medication> getMedications(@RequestParam("page") final Integer page, @RequestParam("value") final Integer value){
-        return medicationRepository.findAll(PageRequest.of(page,value));
+//    @GetMapping(value = "/medications",params = {"page","value"})
+//    Page<Medication> getMedications(@RequestParam("page") final Integer page, @RequestParam("value") final Integer value){
+//        return medicationRepository.findAll(PageRequest.of(page,value));
+//    }
+
+//  Get All MedicationDetail By Page
+    @GetMapping(value = "/medications",params = {"page","value","shopID"})
+    Page<MedicationDetail> getMedications(@RequestParam("page") final Integer page, @RequestParam("value") final Integer value, @RequestParam("shopID") final long shopID){
+        Shop shop = shopRepository.getReferenceById(shopID);
+        return medicationDetailRepository.findByShop(shop,PageRequest.of(page,value));
     }
+
 
 //  Get Medication List by Category ID
     @GetMapping("/medications/{CategoryID}")
@@ -95,4 +104,24 @@ public class MedicationController {
         medication.setCategory(category);
         return medicationRepository.save(medication);
     }
+
+    //  Add Medication Detail
+    @PostMapping("/medications/detail/edit")
+    MedicationDetail editMedicationDetail(@RequestBody EditMedicationDetailParam editMedicationDetailParam){
+        MedicationDetail medicationDetail = medicationDetailRepository.getReferenceById(editMedicationDetailParam.getId());
+        medicationDetail.setStocks(editMedicationDetailParam.getStocks());
+        medicationDetail.setPrice(editMedicationDetailParam.getPrice());
+        medicationDetail.setSalePrice(editMedicationDetailParam.getSalePrice());
+        Shop shop = shopRepository.getReferenceById(editMedicationDetailParam.getShopID());
+        Medication medication = medicationRepository.getReferenceById(editMedicationDetailParam.getMedicationID());
+        medicationDetail.setShop(shop);
+        medicationDetail.setMedication(medication);
+        return medicationDetailRepository.save(medicationDetail);
+    }
+
+    @GetMapping("/medications/detail/delete/{id}")
+    void deleteMedicationDetail(@PathVariable("id") long id){
+        medicationDetailRepository.deleteById(id);
+    }
+
 }

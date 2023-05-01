@@ -1,8 +1,11 @@
 package ru.morcherlf.pharmacy.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
 
 @Data
 @Entity
@@ -11,7 +14,7 @@ public class MedicationDetail {
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Column(name = "Price", nullable = false)
     private Float price;
@@ -24,7 +27,8 @@ public class MedicationDetail {
 
     @ManyToOne(cascade={CascadeType.MERGE,CascadeType.REFRESH},optional=false)
     @JoinColumn(name="MedicationID")
-    @JsonBackReference(value = "medicationDetail-medication")
+    @JsonManagedReference(value = "medication-medicationDetail")
+    @ToString.Exclude
     private Medication medication;
 
     @ManyToOne(cascade={CascadeType.MERGE,CascadeType.REFRESH},optional=false)
@@ -32,11 +36,11 @@ public class MedicationDetail {
     @JsonBackReference(value = "medicationDetail-shop")
     private Shop shop;
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

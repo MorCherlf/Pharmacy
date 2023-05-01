@@ -1,6 +1,8 @@
 package ru.morcherlf.pharmacy.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -12,6 +14,7 @@ import java.util.Optional;
 @Data
 @Entity
 @Table(name = "Medication")
+@JsonIgnoreProperties(value = { "hibernateLazyInitializer"})
 public class Medication {
     @Id
     @Column(name = "ID")
@@ -25,13 +28,13 @@ public class Medication {
     @JoinColumn(name="InformationID", referencedColumnName = "ID")
     private Information information;
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "MedicationTOSupplier",joinColumns = @JoinColumn(name = "MedicationID"), inverseJoinColumns = @JoinColumn(name = "SupplierID"))
     private List<Supplier> supplierList;
 
     @OneToMany(mappedBy = "medication",cascade=CascadeType.ALL,fetch=FetchType.LAZY)
-    @JsonManagedReference(value = "medicationDetail-medication")
-    @ToString.Exclude
+    @JsonBackReference(value = "medication-medicationDetail")
     private List<MedicationDetail> medicationDetailList;
 
     @ManyToOne(cascade={CascadeType.PERSIST,CascadeType.REFRESH})
