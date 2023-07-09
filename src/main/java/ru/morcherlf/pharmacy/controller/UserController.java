@@ -21,13 +21,11 @@ public class UserController {
     @PostMapping("/register")
     User register(@RequestBody RegisterParam registerParam) {
         String username = registerParam.getUsername();
-//        String usernamePattern = "/^[A-Za-z0-9-]+$/";
-
+//      String usernamePattern = "/^[A-Za-z0-9-]+$/";
         if (userRepository.existsByUsername(username)){
             return null;
         }else {
             User user = new User();
-//            if ()
             user.setUsername(registerParam.getUsername());
             user.setPassword(registerParam.getPassword());
             user.setEmail(registerParam.getEmail());

@@ -20,8 +20,8 @@ public class AddressController {
 //  Get Address By ID
     @GetMapping("/address/{id}")
     Optional<Address> getAddress(@PathVariable("id") long id){
-    return addressRepository.findById(id);
-}
+        return addressRepository.findById(id);
+    }
 
 //  Get Address List By User
     @GetMapping("/address/{UserID}")
@@ -33,5 +33,16 @@ public class AddressController {
 //  Add New Address
     @PostMapping("/address")
     Address addAddress(@RequestBody Address address) {return addressRepository.save(address);}
+
+//  Edit Address By ID
+    @PostMapping("/address/edit")
+    Address editAddress(@RequestBody Address address) {
+        Address addressExist = addressRepository.findById(address.id);
+        addressExist.address = address.address
+        return addressRepository.save(addressExist);
+    }
+
+//  Delete Address (Hidden)
+@TODO
 
 }
